@@ -17,25 +17,35 @@ h1 {
 }
 
 .cart {
-    padding-top: 15px;
-    padding-right: 50px;
+    padding-top: 45px;
+    margin-right: 5%;
+    margin-left: 50%;
     text-align: right;
     
 }
 
 .cart-btn {
-    color: white;
+    width: 119px;
+    height: 51px;
+    left: 298px;
+    top: 81px;
     border: none;
-    background-color: #32383e;
-    border-radius: 100%;
-    height: 75px;
-    width: 75px;
-    font-size: 24px;
+    background: #FFC700;
+    border-radius: 37.5px;
+    font-size: 16px;
     cursor: pointer;
+
+}
+.cart-container {
+    margin-top: 50px;
+    margin-bottom: 500px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    justify-content: center;
 }
 .menu-name {
-    font-weight: bold;
-    font-size: 24px;
+    font-size: 16px;
 }
 .ma-type {
     color: white;
@@ -98,7 +108,7 @@ h1 {
 }
 .menu-pic {
     border-radius: 20px;
-    height: 200px;
+    height: 100px;
     
 }
 .w-0 {
@@ -127,4 +137,40 @@ h1 {
     width: 100px;
     border-radius: 40px;
     box-shadow: 3px 3px 5px rgb(94, 104, 121, .288);
+}
+
+.cart-logo {
+    font-size: 24px;
+    
+}
+.nav-pills .nav-link.active{
+    color: black;
+    
+    background-color: #F4F4F4;
+    font-weight: bold;
+}
+.nav-pills .nav-link {
+    color: #FFC700;
+    font-weight: bold;
+    
+}
+
+.nav {
+    margin: 0 auto;
+    width:80%;
+}
+.table {
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    margin: 0 auto;
+    width: 80%;
+    background-color: #F4F4F4;
+}
+.table-borderless > tbody > tr > td,
+.table-borderless > tbody > tr > th,
+.table-borderless > tfoot > tr > td,
+.table-borderless > tfoot > tr > th,
+.table-borderless > thead > tr > td,
+.table-borderless > thead > tr > th {
+    border: none;
 }

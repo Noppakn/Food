@@ -2,13 +2,15 @@ import React,{Fragment, useEffect, useState} from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faNewspaper } from '@fortawesome/free-solid-svg-icons'
+import { GiShoppingCart } from 'react-icons/gi'
 import swal from 'sweetalert'
+import  P2  from '../img/P2.png'
 
 
 
 const Menu = () => {
     const table = 1
+    const [promotion, setPromotion] =useState([])
     const [menus, setMenu] =useState([])
     const [cart, setCart] = useState([])
     const [total, setTotal] = useState([0])
@@ -26,9 +28,32 @@ const Menu = () => {
             console.error(error.message)
         }
     }
+    const getPromotion = async() => {
+        try {
+            
+            const response = await fetch("http://localhost:3001/promotion")
+            const jsonData = await response.json()
+
+            setPromotion(jsonData)
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
 
     function addtocart(item) {
         menus.map((i) => {
+            if (i.food_id === item.food_id) {
+                i.check_cart = "true"
+            } 
+            item.quantity = 1
+            item.total = item.price * item.quantity
+            setCart([...cart, item]);
+            
+            
+        })
+    }
+    function addtocartPro(item) {
+        promotion.map((i) => {
             if (i.food_id === item.food_id) {
                 i.check_cart = "true"
             } 
@@ -65,6 +90,12 @@ const Menu = () => {
                 i.total = i.price
             } 
         })
+        promotion.map((i) => {
+            if (i.food === name) {
+                i.check_cart = "false"
+                i.total = i.price
+            } 
+        })
          
     }
     const totalcal = () => {
@@ -76,6 +107,7 @@ const Menu = () => {
     }
     useEffect(() => {
         getMenu();
+        getPromotion()
     }, [])
     
     const notify = () => toast.error('Menu added', {
@@ -111,6 +143,12 @@ function reset() {
         }else {
             setCart(cart.filter(item => item.food === "name"));
             menus.map((i) => {
+                if (i.check_cart === "true") {
+                    i.check_cart = "false"
+                    i.total = i.price
+                } 
+            })
+            promotion.map((i) => {
                 if (i.check_cart === "true") {
                     i.check_cart = "false"
                     i.total = i.price
@@ -159,38 +197,74 @@ const confirmAlert =() => {
 
 
     return <Fragment>
-        <div className="cart fixed-top">
+        <ul class="nav nav-pills  nav-justified" id="pills-tab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="pills-all-tab" data-toggle="pill" href="#pills-all" role="tab" aria-controls="pills-all" aria-selected="true">All</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pills-promotion-tab" data-toggle="pill" href="#pills-promotion" role="tab" aria-controls="pills-promotion" aria-selected="false">Promotion</a>
+            </li>
+                    
+            </ul>
+            <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
+                <table class="table table-borderless table-sm">
+                    <thead>
+                        <tr>
+                        <th scope="col"></th>
+                        <th scope="col"></th>                
+                        <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>  
+                        {menus.map( menu => (                     
+                            <tr> 
+                            <td className="w-0"><img src={menu.pic} className="menu-pic"/></td>
+                            <td className="menu-name align-middle text-center w-50"><p>{menu.food}</p>{menu.price} B.</td>
+                            <td className="align-middle w-30">{ menu.check_cart === "false"  && <button onClick={() => addtocart(menu)} className="btn-add" >Add</button> }
+                                { menu.check_cart === "true"  && <button className="btn-added" onClick={notify}>Added</button> }
+                            </td>
+                            </tr>
+                        ))}               
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="pills-promotion" role="tabpanel" aria-labelledby="pills-promotion-tab">
+                <table class="table table-borderless table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col"></th>              
+                            
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>  
+                        {promotion.map( menu => (                     
+                            <tr> 
+                                <td className="w-0"><img src={ P2 } className="menu-pic"/></td> 
+                                <td className="menu-name align-middle text-center w-50"><p>{menu.food}</p><p>{menu.description}</p><p>{menu.price} B.</p></td>
+                                
+                                <td className="align-middle w-30">{ menu.check_cart === "false"  && <button onClick={() => addtocartPro(menu)} className="btn-add" >Add</button> }
+                                    { menu.check_cart === "true"  && <button className="btn-added" onClick={notify}>Added</button> }
+                                </td>
+                            </tr>
+                        ))}               
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        <div className="cart-container">                    
             <button type="button" onClick={scrollToCart} className="cart-btn">
-                <FontAwesomeIcon icon={faNewspaper} /> {cart.length}
+                    {<GiShoppingCart className="cart-logo"/>} ×{cart.length}
             </button>
         </div>
-        <table class="table mt-5 table-active ">
-            <thead>
-                <tr>
-                <th scope="col"></th>
-                <th scope="col"></th>                
-                <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>  
-                {menus.map( menu => (                     
-                    <tr> 
-                    <td className="w-0"><img src={menu.pic} className="menu-pic"/></td>
-                    <td className="menu-name align-middle text-center w-50"><p>{menu.food}</p>{menu.price} ฿</td>
-                    <td className="align-middle w-30">{ menu.check_cart === "false"  && <button onClick={() => addtocart(menu)} className="btn-add" >Add</button> }
-                        { menu.check_cart === "true"  && <button className="btn-added" onClick={notify}>Added</button> }
-                    </td>
-                    </tr>
-                ))}               
-            </tbody>
-        </table>
-        
         <div className="text-center">
-            <h1 className="y">YOUR ORDER <FontAwesomeIcon icon={faNewspaper} /></h1>
+            <h1 className="y">YOUR ORDER {<GiShoppingCart/>} /></h1>
             <h1>Table 1</h1>
         </div>
         
-        <table class="table mt-5 text-center table-dark">
+        <table class="table mt-5 text-center table-active">
             <thead>
                 <tr>
                 <th scope="col">Menu</th>

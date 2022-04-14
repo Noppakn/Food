@@ -36,6 +36,14 @@ app.put("/menu/:id", async (req,res) => {
         console.error(error.message)
     }
 })
+app.get("/promotion", async(req, res) => {
+    try {
+        const menu = await pool.query("SELECT * FROM promotion")
+        res.json(menu.rows)
+    } catch (error) {
+        console.error(error.message)
+    }
+})
 app.listen(port, () => {
     console.log("Start at port ", port)
 })
