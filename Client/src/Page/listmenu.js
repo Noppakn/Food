@@ -18,6 +18,8 @@ const Menu = () => {
     const [menus, setMenu] =useState([])
     const [cart, setCart] = useState([])
     const [total, setTotal] = useState([0])
+    const [showmenu,setShowmenu] = useState(true)
+    const [showorder,setShoworder] = useState(false)
     
     
 
@@ -51,10 +53,9 @@ const Menu = () => {
             } 
             item.quantity = 1
             item.total = item.price * item.quantity
-            setCart([...cart, item]);
-            
-            
+            setCart([...cart, item]);       
         })
+        
     }
     function addtocartPro(item) {
         promotion.map((i) => {
@@ -63,16 +64,16 @@ const Menu = () => {
             } 
             item.quantity = 1
             item.total = item.price * item.quantity
-            setCart([...cart, item]);
-            
-            
+            setCart([...cart, item]);      
         })
+        
     }
     function increase(item) {
         item.quantity = item.quantity + 1
         item.total = item.quantity * item.price
         const newval = [...cart]
         setCart(newval)
+        
         
     }
     function decrease(item) {
@@ -83,6 +84,7 @@ const Menu = () => {
             item.total = item.quantity * item.price
             const newval = [...cart]
             setCart(newval)
+            
             
         }
     const removecart = (e) => {
@@ -100,9 +102,11 @@ const Menu = () => {
                 i.total = i.price
             } 
         })
+        
          
     }
     const totalcal = () => {
+        console.log(cart.length)
         let t = 0
         cart.map((i) => {
             t = t + i.total
@@ -126,12 +130,13 @@ const Menu = () => {
         });;
 
     const scrollToCart = () => {
-        window.scrollTo({
-            top : 10000,
-            behavior : 'smooth',
-            
-        }
-        )
+        setShowmenu(false)
+        setShoworder(true)
+        totalcal()
+    }
+    const scrollToMenu = () => {
+        setShowmenu(true)
+        setShoworder(false)
     }
 
 function reset() {
@@ -202,68 +207,73 @@ const confirmAlert =() => {
 
 
     return <Fragment>
-        <ul class="nav nav-pills  nav-justified" id="pills-tab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="pills-all-tab" data-toggle="pill" href="#pills-all" role="tab" aria-controls="pills-all" aria-selected="true">All</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="pills-promotion-tab" data-toggle="pill" href="#pills-promotion" role="tab" aria-controls="pills-promotion" aria-selected="false">Promotion</a>
-            </li>
-                    
-            </ul>
-            <div class="tab-content" id="pills-tabContent">
-            <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
-                <table class="table table-borderless table-sm">
-                    <thead>
-                        <tr>
-                        <th scope="col"></th>
-                        <th scope="col"></th>                
-                        <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>  
-                        {menus.map( menu => (                     
-                            <tr> 
-                            <td className="w-0"><img src={menu.pic} className="menu-pic"/></td>
-                            <td className="menu-name align-middle text-center w-50"><p className="name">{menu.food}</p>{menu.price} B.</td>
-                            <td className="align-middle w-30">{ menu.check_cart === "false"  && <button onClick={() => addtocart(menu)} className="btn-add" >Add</button> }
-                                { menu.check_cart === "true"  && <button className="btn-added" onClick={notify}>Added</button> }
-                            </td>
+        {showmenu?<div>
+            
+            <ul class="nav nav-pills  nav-justified" id="pills-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="pills-all-tab" data-toggle="pill" href="#pills-all" role="tab" aria-controls="pills-all" aria-selected="true">All</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-promotion-tab" data-toggle="pill" href="#pills-promotion" role="tab" aria-controls="pills-promotion" aria-selected="false">Promotion</a>
+                </li>
+                        
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
+                    <table class="table table-borderless table-sm">
+                        <thead>
+                            <tr>
+                            <th scope="col"></th>
+                            <th scope="col"></th>                
+                            <th scope="col"></th>
                             </tr>
-                        ))}               
-                    </tbody>
-                </table>
-            </div>
-            <div class="tab-pane fade" id="pills-promotion" role="tabpanel" aria-labelledby="pills-promotion-tab">
-                <table class="table table-borderless table-sm">
-                    <thead>
-                        <tr>
-                            <th scope="col"></th>
-                            <th scope="col"></th>              
-                            
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>  
-                        {promotion.map( (menu,index) => (                     
-                            <tr> 
-                                <td className="w-0"><img src={ pic[index] } className="menu-pic"/></td> 
-                                <td className="menu-name align-middle text-center w-50"><p className="name">{menu.food}</p><p>{menu.description}</p><p>{menu.price} B.</p></td>
-                                <td className="align-middle w-30">{ menu.check_cart === "false"  && <button onClick={() => addtocartPro(menu)} className="btn-add" >Add</button> }
+                        </thead>
+                        <tbody>  
+                            {menus.map( menu => (                     
+                                <tr> 
+                                <td className="w-0"><img src={menu.pic} className="menu-pic"/></td>
+                                <td className="menu-name align-middle text-center w-50"><p className="name">{menu.food}</p>{menu.price} B.</td>
+                                <td className="align-middle w-30">{ menu.check_cart === "false"  && <button onClick={() => {addtocart(menu)}} className="btn-add" >Add</button> }
                                     { menu.check_cart === "true"  && <button className="btn-added" onClick={notify}>Added</button> }
                                 </td>
+                                </tr>
+                            ))}               
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="pills-promotion" role="tabpanel" aria-labelledby="pills-promotion-tab">
+                    <table class="table table-borderless table-sm">
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col"></th>              
+                                
+                                <th scope="col"></th>
                             </tr>
-                        ))}               
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>  
+                            {promotion.map( (menu,index) => (                     
+                                <tr> 
+                                    <td className="w-0"><img src={ pic[index] } className="menu-pic"/></td> 
+                                    <td className="menu-name align-middle text-center w-50"><p className="name">{menu.food}</p><p>{menu.description}</p><p>{menu.price} B.</p></td>
+                                    <td className="align-middle w-30">{ menu.check_cart === "false"  && <button onClick={() => addtocartPro(menu)} className="btn-add" >Add</button> }
+                                        { menu.check_cart === "true"  && <button className="btn-added" onClick={notify}>Added</button> }
+                                    </td>
+                                </tr>
+                            ))}               
+                        </tbody>
+                    </table>
+                </div>
+                
+                </div>
+            <div className="cart-container" >                    
+                <button type="button" onClick={scrollToCart} className="cart-btn">
+                        {<GiShoppingCart className="cart-logo"/>} ×{cart.length}
+                </button>
             </div>
-            </div>
-        <div className="cart-container" >                    
-            <button type="button" onClick={scrollToCart} className="cart-btn">
-                    {<GiShoppingCart className="cart-logo"/>} ×{cart.length}
-            </button>
-        </div>
-        <div className="cart-order-contrainer" style={{ backgroundImage: `url(${bg})` , backgroundSize: "cover"}}>
+        </div>:null}
+
+        {showorder?<div className="cart-order-contrainer" style={{ backgroundImage: `url(${bg})` , backgroundSize: "cover"}}>
             <div className="order">
                 <div>
                     <h1>Your order</h1>
@@ -306,7 +316,7 @@ const confirmAlert =() => {
                         <tbody>
                             <tr>
                                 <td className="text-left" >Subtotal</td>
-                                <td className="text-right">100</td>
+                                <td className="text-right">{total}</td>
                             </tr>
                             <tr>
                                 <td className="text-left" >Subtotal</td>
@@ -324,10 +334,11 @@ const confirmAlert =() => {
                 <div className="order text-center">
                     <button className="btn-order btn-danger" onClick={() => reset()}>Clear order</button>
                     <button className="btn-order btn-success"onClick={() => confirmAlert()} >Order</button>
+                    <button className="btn-order btn-success"onClick={() => scrollToMenu()} >Back</button>
                 </div>
                 
             </div>
-        </div>
+        </div>:null}
         <ToastContainer />                
     </Fragment>
 };
