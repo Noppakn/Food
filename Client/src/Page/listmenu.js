@@ -1,10 +1,14 @@
 import React,{Fragment, useEffect, useState} from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { GiShoppingCart } from 'react-icons/gi'
+import { RiShoppingBag3Line } from 'react-icons/ri'
+import { SiAirtable } from 'react-icons/si'
 import swal from 'sweetalert'
+import  P1  from '../img/P1.png'
 import  P2  from '../img/P2.png'
+import  P3  from '../img/P3.png'
+import  bg  from '../img/bg.png'
 
 
 
@@ -110,6 +114,7 @@ const Menu = () => {
         getPromotion()
     }, [])
     
+    const pic = [P1,P2,P3]
     const notify = () => toast.error('Menu added', {
         position: "top-right",
         autoClose: 5000,
@@ -220,7 +225,7 @@ const confirmAlert =() => {
                         {menus.map( menu => (                     
                             <tr> 
                             <td className="w-0"><img src={menu.pic} className="menu-pic"/></td>
-                            <td className="menu-name align-middle text-center w-50"><p>{menu.food}</p>{menu.price} B.</td>
+                            <td className="menu-name align-middle text-center w-50"><p className="name">{menu.food}</p>{menu.price} B.</td>
                             <td className="align-middle w-30">{ menu.check_cart === "false"  && <button onClick={() => addtocart(menu)} className="btn-add" >Add</button> }
                                 { menu.check_cart === "true"  && <button className="btn-added" onClick={notify}>Added</button> }
                             </td>
@@ -240,11 +245,10 @@ const confirmAlert =() => {
                         </tr>
                     </thead>
                     <tbody>  
-                        {promotion.map( menu => (                     
+                        {promotion.map( (menu,index) => (                     
                             <tr> 
-                                <td className="w-0"><img src={ P2 } className="menu-pic"/></td> 
-                                <td className="menu-name align-middle text-center w-50"><p>{menu.food}</p><p>{menu.description}</p><p>{menu.price} B.</p></td>
-                                
+                                <td className="w-0"><img src={ pic[index] } className="menu-pic"/></td> 
+                                <td className="menu-name align-middle text-center w-50"><p className="name">{menu.food}</p><p>{menu.description}</p><p>{menu.price} B.</p></td>
                                 <td className="align-middle w-30">{ menu.check_cart === "false"  && <button onClick={() => addtocartPro(menu)} className="btn-add" >Add</button> }
                                     { menu.check_cart === "true"  && <button className="btn-added" onClick={notify}>Added</button> }
                                 </td>
@@ -254,41 +258,75 @@ const confirmAlert =() => {
                 </table>
             </div>
             </div>
-        <div className="cart-container">                    
+        <div className="cart-container" >                    
             <button type="button" onClick={scrollToCart} className="cart-btn">
                     {<GiShoppingCart className="cart-logo"/>} ×{cart.length}
             </button>
         </div>
-        <div className="text-center">
-            <h1 className="y">YOUR ORDER {<GiShoppingCart/>} /></h1>
-            <h1>Table 1</h1>
-        </div>
-        
-        <table class="table mt-5 text-center table-active">
-            <thead>
-                <tr>
-                <th scope="col">Menu</th>
-                <th scope="col">Price</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Total</th>
-                <th scope="col">remove</th>
-                </tr>
-            </thead>
-            <tbody>
-                {cart.map( i => (
-                    <tr>
-                    <td>{i.food}</td>
-                    <td>{i.price}</td>
-                    <td><button className="btn btn-light" onClick={() => decrease(i)}>-</button>     {i.quantity}     <button className="btn btn-light" onClick={() => increase(i)}>+</button></td>
-                    <td>{i.total}</td>
-                    <td><button className="btn btn-danger" name={i.food} onClick={removecart}>remove</button></td>
-                    </tr>
-                ))}               
-            </tbody>
-        </table>
-        <div className="order text-center">
-            <button className="btn-order btn-danger" onClick={() => reset()}>Clear order</button>
-            <button className="btn-order btn-success"onClick={() => confirmAlert()} >Order</button>
+        <div className="cart-order-contrainer" style={{ backgroundImage: `url(${bg})` , backgroundSize: "cover"}}>
+            <div className="order">
+                <div>
+                    <h1>Your order</h1>
+                    <p>{<RiShoppingBag3Line/>} {cart.length}</p>
+                </div>
+                <div className="order-table">
+                    <h1 className="order-table-h1">{<SiAirtable/>} Table {table} </h1>
+                </div>
+                <table class="tableOrder table-borderless table-sm">
+                    <thead>
+                        <tr>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {cart.map( i => (
+                            <tr>
+                            <td className='align-middle' ><img src={i.pic} className="menu-pic"/></td>
+                            <td className='align-middle' >{i.food}</td>                     
+                            <td className='align-middle' ><button className="btn btn-light" onClick={() => decrease(i)}>-</button>     {i.quantity}     <button className="btn btn-light" onClick={() => increase(i)}>+</button></td>
+                            <td className='align-middle' >{i.total}</td>
+                            <td className='align-middle' ><button className="btn btn-danger" name={i.food} onClick={removecart}>remove</button></td>
+                            </tr>
+                        ))}               
+                    </tbody>
+                </table>
+                <div className="order-total">
+                    <table class="tableOrder table-borderless table-sm">
+                        <thead>
+                            <tr>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td className="text-left" >Subtotal</td>
+                                <td className="text-right">100</td>
+                            </tr>
+                            <tr>
+                                <td className="text-left" >Subtotal</td>
+                                <td className="text-right">100</td>
+                            </tr>
+                            <tr>
+                                <td className="text-left" >Subtotal</td>
+                                <td className="text-right">100</td>
+                            </tr>              
+                        </tbody>
+                        </table>
+                    
+                    
+                </div>
+                <div className="order text-center">
+                    <button className="btn-order btn-danger" onClick={() => reset()}>Clear order</button>
+                    <button className="btn-order btn-success"onClick={() => confirmAlert()} >Order</button>
+                </div>
+                
+            </div>
         </div>
         <ToastContainer />                
     </Fragment>
