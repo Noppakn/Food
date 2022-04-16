@@ -4,6 +4,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { GiShoppingCart } from 'react-icons/gi'
 import { RiShoppingBag3Line } from 'react-icons/ri'
 import { SiAirtable } from 'react-icons/si'
+import { AiOutlineArrowRight } from 'react-icons/ai'
+import { MdMenuBook } from 'react-icons/md'
 import swal from 'sweetalert'
 import  P1  from '../img/P1.png'
 import  P2  from '../img/P2.png'
@@ -17,7 +19,11 @@ const Menu = () => {
     const [promotion, setPromotion] =useState([])
     const [menus, setMenu] =useState([])
     const [cart, setCart] = useState([])
-    const [total, setTotal] = useState([0])
+    const [total, setTotal] = useState({
+        subtotal: 0,
+        vat : 0,
+        total: 0
+    })
     const [showmenu,setShowmenu] = useState(true)
     const [showorder,setShoworder] = useState(false)
     
@@ -49,7 +55,7 @@ const Menu = () => {
     function addtocart(item) {
         menus.map((i) => {
             if (i.food_id === item.food_id) {
-                i.check_cart = "true"
+                i.check_cart = true
             } 
             item.quantity = 1
             item.total = item.price * item.quantity
@@ -60,7 +66,7 @@ const Menu = () => {
     function addtocartPro(item) {
         promotion.map((i) => {
             if (i.food_id === item.food_id) {
-                i.check_cart = "true"
+                i.check_cart = true
             } 
             item.quantity = 1
             item.total = item.price * item.quantity
@@ -73,6 +79,7 @@ const Menu = () => {
         item.total = item.quantity * item.price
         const newval = [...cart]
         setCart(newval)
+        totalcal()
         
         
     }
@@ -84,34 +91,30 @@ const Menu = () => {
             item.total = item.quantity * item.price
             const newval = [...cart]
             setCart(newval)
+            totalcal()
             
             
         }
-    const removecart = (e) => {
-        const name = e.target.getAttribute("name")
-        setCart(cart.filter(item => item.food !== name));
-        menus.map((i) => {
-            if (i.food === name) {
-                i.check_cart = "false"
-                i.total = i.price
-            } 
-        })
-        promotion.map((i) => {
-            if (i.food === name) {
-                i.check_cart = "false"
-                i.total = i.price
-            } 
-        })
-        
-         
+    function round(value, step) {
+        step || (step = 1.0);
+        var inv = 1.0/ step;
+        return Math.round(value * inv) / inv;
     }
     const totalcal = () => {
         console.log(cart.length)
+        let sub_t = 0
+        let vat = 0
         let t = 0
         cart.map((i) => {
-            t = t + i.total
+            sub_t = sub_t + i.total
         })
-        setTotal(t)
+        vat = round(sub_t * 0.07,0.50)
+        t = vat +  sub_t
+        setTotal({
+            subtotal:sub_t.toFixed(2),
+            vat:vat.toFixed(2),
+            total:t.toFixed(2)
+        })
     }
     useEffect(() => {
         getMenu();
@@ -119,20 +122,45 @@ const Menu = () => {
     }, [])
     
     const pic = [P1,P2,P3]
-    const notify = () => toast.error('Menu added', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        });;
+    const notify = (e) => {
+        const name = e.target.getAttribute("name")
+        setCart(cart.filter(item => item.food !== name));
+        menus.map((i) => {
+        if (i.food === name) {
+            i.check_cart = false
+            i.total = i.price
+        }
+        promotion.map((i) => {
+            if (i.food === name) {
+                i.check_cart = false
+                i.total = i.price
+            } 
+        })
+    })
+    promotion.map((i) => {
+        if (i.food === name) {
+            i.check_cart = false
+            i.total = i.price
+        } 
+    })}
 
     const scrollToCart = () => {
-        setShowmenu(false)
-        setShoworder(true)
-        totalcal()
+        if (cart.length === 0) {
+            toast.error('Order is empty!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                });;
+        }else{
+            setShowmenu(false)
+            setShoworder(true)
+            totalcal()
+        }
+        
     }
     const scrollToMenu = () => {
         setShowmenu(true)
@@ -153,14 +181,14 @@ function reset() {
         }else {
             setCart(cart.filter(item => item.food === "name"));
             menus.map((i) => {
-                if (i.check_cart === "true") {
-                    i.check_cart = "false"
+                if (i.check_cart === true) {
+                    i.check_cart = false
                     i.total = i.price
                 } 
             })
             promotion.map((i) => {
-                if (i.check_cart === "true") {
-                    i.check_cart = "false"
+                if (i.check_cart === true) {
+                    i.check_cart = false
                     i.total = i.price
                 } 
             })
@@ -194,14 +222,18 @@ const confirmAlert =() => {
                     icon : "success"
                 })
                 menus.map((i) => {
-                if (i.check_cart === "true") {
-                    i.check_cart = "false"
+                if (i.check_cart === true) {
+                    i.check_cart = false
                     i.total = i.price
                 }
                 setCart(cart.filter(item => item.food === "name"));
+                scrollToMenu()
+                
             })
             }
         })
+            
+        
     }
 }
 
@@ -233,8 +265,8 @@ const confirmAlert =() => {
                                 <tr> 
                                 <td className="w-0"><img src={menu.pic} className="menu-pic"/></td>
                                 <td className="menu-name align-middle text-center w-50"><p className="name">{menu.food}</p>{menu.price} B.</td>
-                                <td className="align-middle w-30">{ menu.check_cart === "false"  && <button onClick={() => {addtocart(menu)}} className="btn-add" >Add</button> }
-                                    { menu.check_cart === "true"  && <button className="btn-added" onClick={notify}>Added</button> }
+                                <td className="align-middle w-30">{ menu.check_cart === false  && <button onClick={() => {addtocart(menu)}} className="btn-add" >Add</button> }
+                                    { menu.check_cart === true  && <button className="btn-added" name={menu.food} onClick={notify}>Added</button> }
                                 </td>
                                 </tr>
                             ))}               
@@ -256,8 +288,8 @@ const confirmAlert =() => {
                                 <tr> 
                                     <td className="w-0"><img src={ pic[index] } className="menu-pic"/></td> 
                                     <td className="menu-name align-middle text-center w-50"><p className="name">{menu.food}</p><p>{menu.description}</p><p>{menu.price} B.</p></td>
-                                    <td className="align-middle w-30">{ menu.check_cart === "false"  && <button onClick={() => addtocartPro(menu)} className="btn-add" >Add</button> }
-                                        { menu.check_cart === "true"  && <button className="btn-added" onClick={notify}>Added</button> }
+                                    <td className="align-middle w-30">{ menu.check_cart === false  && <button onClick={() => addtocartPro(menu)} className="btn-add" >Add</button> }
+                                        { menu.check_cart === true  && <button className="btn-added" name={menu.food} onClick={notify}>Added</button> }
                                     </td>
                                 </tr>
                             ))}               
@@ -289,7 +321,7 @@ const confirmAlert =() => {
                         <th scope="col"></th>
                         <th scope="col"></th>
                         <th scope="col"></th>
-                        <th scope="col"></th>
+                        
                         </tr>
                     </thead>
                     <tbody>
@@ -297,9 +329,8 @@ const confirmAlert =() => {
                             <tr>
                             <td className='align-middle' ><img src={i.pic} className="menu-pic"/></td>
                             <td className='align-middle' >{i.food}</td>                     
-                            <td className='align-middle' ><button className="btn btn-light" onClick={() => decrease(i)}>-</button>     {i.quantity}     <button className="btn btn-light" onClick={() => increase(i)}>+</button></td>
+                            <td className='align-middle' ><button className="btn-inde btn-light" onClick={() => decrease(i)}>-</button>     {i.quantity}     <button className="btn-inde btn-light" onClick={() => increase(i)}>+</button></td>
                             <td className='align-middle' >{i.total}</td>
-                            <td className='align-middle' ><button className="btn btn-danger" name={i.food} onClick={removecart}>remove</button></td>
                             </tr>
                         ))}               
                     </tbody>
@@ -315,26 +346,35 @@ const confirmAlert =() => {
                         </thead>
                         <tbody>
                             <tr>
-                                <td className="text-left" >Subtotal</td>
-                                <td className="text-right">{total}</td>
+                                <td className="text-left" style={{fontSize:"14px",fontWeight:"bold"}}>Subtotal</td>
+                                <td className="text-right" style={{fontSize:"14px"}}>{total.subtotal}</td>
                             </tr>
                             <tr>
-                                <td className="text-left" >Subtotal</td>
-                                <td className="text-right">100</td>
+                                <td className="text-left" style={{fontSize:"14px",fontWeight:"bold"}}>Vat 7%</td>
+                                <td className="text-right" style={{fontSize:"14px"}}>{total.vat}</td>
                             </tr>
                             <tr>
-                                <td className="text-left" >Subtotal</td>
-                                <td className="text-right">100</td>
+                                <td className="text-left" style={{fontSize:"20px",fontWeight:"bold"}}>Total</td>
+                                <td className="text-right" style={{fontSize:"20px",fontWeight:"bold"}}>{total.total}</td>
                             </tr>              
                         </tbody>
                         </table>
                     
                     
                 </div>
-                <div className="order text-center">
-                    <button className="btn-order btn-danger" onClick={() => reset()}>Clear order</button>
-                    <button className="btn-order btn-success"onClick={() => confirmAlert()} >Order</button>
-                    <button className="btn-order btn-success"onClick={() => scrollToMenu()} >Back</button>
+                <div className="order text-center" >
+                    <button className="btn-order "onClick={() => confirmAlert()}  ><span>Order</span> {<AiOutlineArrowRight/>}</button>
+                    
+                </div>                
+            </div>
+            <div className="footer">
+                <div className="footer-left" href="#" onClick={() =>scrollToMenu()}>
+                    <a href="#" onClick={() =>scrollToMenu()}>{<MdMenuBook/>}</a>
+                    <span>Menu</span>
+                </div>
+                <div className="footer-right">
+                    <a href="#" >{<GiShoppingCart/>}</a>
+                    <span>Cart</span>
                 </div>
                 
             </div>

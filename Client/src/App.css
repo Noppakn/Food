@@ -6,8 +6,12 @@
     align-items: center;
     justify-content: center;
     
+    @media only screen and (max-width: 800px){
+        height: 40px;
+    }
 }
 .header h1 {
+    color: #141E27;
     font-size: 25px;
     padding: 10px;
 }
