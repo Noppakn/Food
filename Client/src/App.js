@@ -1,16 +1,20 @@
-import React, {Fragment} from "react" ; 
+import React from "react" ; 
 import Menu from "./Page/listmenu"
-import './css/listmenu.css'
-import './App.css'
+import Login from "./Page/login"
+
+
+
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+
+
 function App() {
   return ( 
-  <Fragment>
-    <div className="header">
-      <h1>Pizza Monkey </h1>
-    </div>
-    
-    <Menu />
-  </Fragment>
+  <Router>
+    <Routes>
+      <Route exact path="/menu" element={<Menu/>} />
+      <Route exact path="/login" element= {<Login/>} />
+    </Routes>
+  </Router>
   )
 }
 

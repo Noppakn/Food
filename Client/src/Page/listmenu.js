@@ -11,6 +11,7 @@ import  P1  from '../img/P1.png'
 import  P2  from '../img/P2.png'
 import  P3  from '../img/P3.png'
 import  bg  from '../img/bg.png'
+import '../css/listmenu.css'
 
 
 
@@ -238,9 +239,11 @@ const confirmAlert =() => {
 }
 
 
-    return <Fragment>
+    return (<div>
         {showmenu?<div>
-            
+            <div className="header">
+                <h1>Pizza Monkey </h1>
+            </div>
             <ul class="nav nav-pills  nav-justified" id="pills-tab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="pills-all-tab" data-toggle="pill" href="#pills-all" role="tab" aria-controls="pills-all" aria-selected="true">All</a>
@@ -369,7 +372,7 @@ const confirmAlert =() => {
             </div>
             <div className="footer">
                 <div className="footer-left" href="#" onClick={() =>scrollToMenu()}>
-                    <a href="#" onClick={() =>scrollToMenu()}>{<MdMenuBook/>}</a>
+                    <a onClick={() =>scrollToMenu()}>{<MdMenuBook/>}</a>
                     <span>Menu</span>
                 </div>
                 <div className="footer-right">
@@ -380,7 +383,7 @@ const confirmAlert =() => {
             </div>
         </div>:null}
         <ToastContainer />                
-    </Fragment>
+        </div>)
 };
 
 export default Menu;
