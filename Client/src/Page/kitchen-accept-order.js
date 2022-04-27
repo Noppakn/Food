@@ -9,7 +9,8 @@ const KitchenAcceptOrder = () => {
     const [orders,SetOrder] = useState([])
     const getOrder = async() => {
         data.order.map((i) => {
-            let e = {order:i[0],quantity:i[1],status:"accept"}
+            console.log(i)
+            let e = {order:i[0],quantity:i[1],status:"accept",total:i[3]}
             orders.push(e)
             SetOrder([...orders])
         })
@@ -28,7 +29,7 @@ const KitchenAcceptOrder = () => {
         let array = []
         orders.map(i => {
             let subA = []
-            subA.push(i.order,i.quantity,i.status)
+            subA.push(i.order,i.quantity,i.status,i.total)
             array.push(subA)
         })
         console.log(array)

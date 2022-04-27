@@ -3,7 +3,7 @@
     font-family: 'Kanit', sans-serif;
     border-radius: 30px;
     margin-top: 33px;
-    height: 669px;
+    height: 600px;
     width: 100%;
     background-color: #4F546C;
     display: flex;
@@ -12,4 +12,13 @@
 }
 .order-content h1 {
     color: aliceblue;
+}
+.tablee {
+    font-family: 'Kanit', sans-serif;
+    padding: 200px;
+    border-radius: 20px;
+    margin: 0 auto;
+    width: 100%;
+    height: 500px;
+    background-color: #C4C4C4;
 }

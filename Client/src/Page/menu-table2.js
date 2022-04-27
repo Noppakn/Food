@@ -13,12 +13,13 @@ import  P3  from '../img/P3.png'
 import  bg  from '../img/bg.png'
 import '../css/listmenu.css'
 import axios from 'axios'
+import { Link } from "react-router-dom";
 
 
 
 const Menu = () => {
     const baseUrl = "http://localhost:3001/create-order" ;
-    const table = 1
+    const table = 2
     const [promotion, setPromotion] =useState([])
     const [menus, setMenu] =useState([])
     const [cart, setCart] = useState([])
@@ -31,7 +32,9 @@ const Menu = () => {
     const [showorder,setShoworder] = useState(false)
     
     
+    const checkOrder = () => {
 
+    }
     const getMenu = async() => {
         try {
             
@@ -240,6 +243,7 @@ const confirmAlert =() => {
                 cart.map((c) => {
                     let h = []
                     h.push(c.food,c.quantity)
+                    
                     sumorder.push(h)
                     
                 })
@@ -332,6 +336,10 @@ const confirmAlert =() => {
                 <button type="button" onClick={scrollToCart} className="cart-btn">
                         {<GiShoppingCart className="cart-logo"/>} ×{cart.length}
                 </button>
+                <Link to ="/customer-order" state={{ table :table }}>
+                    <button type="button"  className="cart-btn">Check Order</button>
+                </Link>
+
             </div>
         </div>:null}
 
