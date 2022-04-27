@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300;400;500;600&display=swap');
+.order-content {
+    font-family: 'Kanit', sans-serif;
+    border-radius: 30px;
+    margin-top: 33px;
+    height: 669px;
+    width: 100%;
+    background-color: #4F546C;
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+}
+.order-content h1 {
+    color: aliceblue;
+}

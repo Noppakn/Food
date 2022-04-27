@@ -12,10 +12,12 @@ import  P2  from '../img/P2.png'
 import  P3  from '../img/P3.png'
 import  bg  from '../img/bg.png'
 import '../css/listmenu.css'
+import axios from 'axios'
 
 
 
 const Menu = () => {
+    const baseUrl = "http://localhost:3001/create-order" ;
     const table = 1
     const [promotion, setPromotion] =useState([])
     const [menus, setMenu] =useState([])
@@ -81,8 +83,7 @@ const Menu = () => {
         const newval = [...cart]
         setCart(newval)
         totalcal()
-        
-        
+
     }
     function decrease(item) {
         item.quantity - 1 <= 0 ? (
@@ -102,7 +103,7 @@ const Menu = () => {
         return Math.round(value * inv) / inv;
     }
     const totalcal = () => {
-        console.log(cart.length)
+        
         let sub_t = 0
         let vat = 0
         let t = 0
@@ -164,6 +165,7 @@ const Menu = () => {
         
     }
     const scrollToMenu = () => {
+        console.log("yes")
         setShowmenu(true)
         setShoworder(false)
     }
@@ -214,7 +216,7 @@ const confirmAlert =() => {
         })
         swal({
             title: "[Table 1] Confirm order",
-            text : "total :" + t,
+            text : "total :" + total.total,
             buttons: true,
             dangerMode: true,
         }).then((conf) => {
@@ -226,17 +228,42 @@ const confirmAlert =() => {
                 if (i.check_cart === true) {
                     i.check_cart = false
                     i.total = i.price
-                }
-                setCart(cart.filter(item => item.food === "name"));
-                scrollToMenu()
+                }               
+                })
+                promotion.map((i) => {
+                    if (i.check_cart === true) {
+                        i.check_cart = false
+                        i.total = i.price
+                    }               
+                    })
+                let sumorder = []
+                cart.map((c) => {
+                    let h = []
+                    h.push(c.food,c.quantity)
+                    sumorder.push(h)
+                    
+                })
                 
-            })
+                const body = {
+                    'table' : table,
+                    'total' : total.total,
+                    'menu' : sumorder
+                }
+                axios.post(baseUrl,body, {
+                    headers: {
+                        'content-type': 'application/json',
+                    }})
+                setCart(cart.filter(item => item.food === "name"));
+                
+                scrollToMenu()
+
             }
         })
             
         
     }
 }
+    console.log(menus)
 
 
     return (<div>
