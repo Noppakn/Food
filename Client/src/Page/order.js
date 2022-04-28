@@ -1,6 +1,8 @@
 import React from "react";
 import {useEffect, useState} from "react";
+import axios from 'axios'
 import "../css/order.css"
+import Navbar from "../component/navbar";
 const Order = () => {
     const [orders, setOrders] =useState([])
     const success = (data) => {
@@ -8,12 +10,32 @@ const Order = () => {
         data.order_status = 3
         const newval = [...orders]
         setOrders(newval)
+        const baseUrl = "http://localhost:3001/update-admin-order"
+        const body = {
+            'order_status' : 3,
+            'menu' : data.menu,
+            'order_id' : data.order_id
+        }
+        axios.put(baseUrl,body, {
+            headers: {
+                'content-type': 'application/json',
+            }})
     }
     const cooking = (data) => {
         console.log(data)
         data.order_status = 2
         const newval = [...orders]
         setOrders(newval)
+        const baseUrl = "http://localhost:3001/update-admin-order"
+        const body = {
+            'order_status' : 2,
+            'menu' : data.menu,
+            'order_id' : data.order_id
+        }
+        axios.put(baseUrl,body, {
+            headers: {
+                'content-type': 'application/json',
+            }})
     }
     const getOrder = async() => {
         try {
@@ -30,6 +52,8 @@ const Order = () => {
     }, [])
     console.log(orders)
     return (
+        <div>
+            < Navbar />
         <div className="login-container">
             <div className="login-header">
                 <h1> การแจ้งเตือน </h1>
@@ -66,6 +90,7 @@ const Order = () => {
                         </tbody>
                     </table>
             </div>
+        </div>
         </div>
     )
 }

@@ -22,3 +22,35 @@
     height: 500px;
     background-color: #C4C4C4;
 }
+.orderr-content {
+    font-family: 'Kanit', sans-serif;
+    border-radius: 30px;
+    margin-top: 33px;
+    width: 100%;
+    background-color: #4F546C;
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+}
+.orderr-content h1 {
+    color: aliceblue;
+}
+.bottom-pay {
+    margin-top: 10px;
+    padding: 20px;
+    
+    width: 100%;
+    border-radius: 20px;
+    background-color: white;
+    display: flex;
+}
+.sumdivdiv p{
+    font-family: 'Kanit', sans-serif;
+}
+.sumdivdiv p1{
+    font-family: 'Kanit', sans-serif;
+    font-size: 24px;
+}
+.payment {
+    margin-left: 50%;
+}

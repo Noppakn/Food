@@ -90,6 +90,40 @@ app.post("/create-order", async (req, res) => {
     }
 })
 
+//get table
+app.get("/table-info", async(req, res) => {
+    try {
+        const menu = await pool.query("SELECT * FROM shop_info")
+        res.json(menu.rows)
+    } catch (error) {
+        console.error(error.message)
+    }
+})
+app.put("/update-table-info", async(req, res) => {
+    try {
+        const data = req.body
+        const update = await pool.query(
+            `
+            UPDATE public.shop_info
+	        SET status=$1
+	        WHERE "table" = $2; 
+            `,[data.status,data.table]
+        )
+    } catch (error) {
+        console.error(error.message)
+    }
+})
+
+// delete 
+app.delete("/delete-order", async(req, res) => {
+    const data = req.body
+    const si = await pool.query(
+        `
+        DELETE FROM public.custorder
+        WHERE "table" = $1;
+        `,[data.table]
+    )
+})
 
 
 

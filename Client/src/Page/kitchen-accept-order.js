@@ -44,6 +44,15 @@ const KitchenAcceptOrder = () => {
             headers: {
                 'content-type': 'application/json',
             }})
+            const bodyTable = {
+                'status' : 1,
+                'table' : data.table
+            }
+            axios.put("http://localhost:3001/update-table-info",bodyTable, {
+                headers: {
+                    'content-type': 'application/json',
+                }
+            })
         window.location.href = '/kitchen-order-alert'  
     }
     useEffect(() => {

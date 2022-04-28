@@ -7,6 +7,8 @@ import Order from "./Page/order"
 import KitchenOrderAlert from "./Page/kitchen-order-alert";
 import KitchenAcceptOrder from "./Page/kitchen-accept-order";
 import CustomerOrder from "./Page/customer-order";
+import HomePage from "./Page/homepage";
+import TableInfo from "./Page/table-info";
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
@@ -23,6 +25,8 @@ function App() {
       <Route exact path="/kitchen-order-alert" element= {< KitchenOrderAlert/>} />
       <Route exact path="/kitchen-accept-order" element= {< KitchenAcceptOrder/>} />
       <Route exact path="/customer-order" element={< CustomerOrder />} />
+      <Route exact path="/home" element= {<HomePage />}/>
+      <Route export path="/Table-info" element = {<TableInfo/>} />
     </Routes>
   </Router>
   )

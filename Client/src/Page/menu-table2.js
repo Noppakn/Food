@@ -242,7 +242,10 @@ const confirmAlert =() => {
                 let sumorder = []
                 cart.map((c) => {
                     let h = []
-                    h.push(c.food,c.quantity)
+                    h.push(c.food)
+                    h.push(c.quantity)
+                    h.push("pending")
+                    h.push(c.price)
                     
                     sumorder.push(h)
                     

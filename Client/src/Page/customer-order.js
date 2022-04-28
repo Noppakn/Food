@@ -1,6 +1,7 @@
 import React,{ useEffect, useState } from "react";
 import "../css/customer-order.css"
 import { useLocation } from 'react-router-dom'
+
 const CustomerOrder = () => {
     const location = useLocation()
     const data = location.state
@@ -36,8 +37,8 @@ const CustomerOrder = () => {
             <table class="table">
                         <thead>
                             <tr>
-                            <th scope="col">Order</th>
-                            <th scope="col">Status</th>                
+                            <th scope="col">รายการอาหาร</th>
+                            <th scope="col">สถานะ</th>                
                             
                             </tr>
                         </thead>
@@ -53,7 +54,7 @@ const CustomerOrder = () => {
                                         <td>{i.order_status === 0 && <button className="btn btn-warning" >รอดำเนินการ</button>}
                                             {i.order_status === 1 && <button className="btn btn-danger">ถูกยกเลิก</button>}
                                             {i.order_status === 2 && <button className="btn btn-info">กำลังจัดเตรียมอาหาร</button>}
-                                            {i.order_status === 3 && <button className="btn btn-warning">ให้บริการแล้ว</button>}</td>
+                                            {i.order_status === 3 && <button className="btn btn-success">ให้บริการแล้ว</button>}</td>
                                     </tr>)
                                 }
                             })}               

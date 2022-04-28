@@ -1,5 +1,6 @@
 import React,{ useEffect, useState } from "react";
 import EventsCard from "../event/eventcard";
+import Navbar from "../component/navbar";
 
 
 import "../css/kitchen-order-alert.css"
@@ -30,8 +31,11 @@ const KitchenOrderAlert =() => {
         
     }, [])
     return (
+        <div>
+            < Navbar />
         <div className="kitchen-order-alert-container">
             <EventsCard data={orders} />
+        </div>
         </div>
     )
 }

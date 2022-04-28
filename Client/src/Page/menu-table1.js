@@ -258,8 +258,8 @@ const confirmAlert =() => {
                     headers: {
                         'content-type': 'application/json',
                     }})
-                setCart(cart.filter(item => item.food === "name"));
                 
+                setCart(cart.filter(item => item.food === "name"));
                 scrollToMenu()
 
             }
@@ -269,7 +269,41 @@ const confirmAlert =() => {
     }
 }
 
-
+    const callem = () =>{
+        swal({
+            title: "เรียกพนักงาน",
+            buttons: true,
+            dangerMode: true,
+        }).then((conf) => {
+            if (conf) {const bodyTable = {
+                'status' : 2,
+                'table' : table
+            }
+            axios.put("http://localhost:3001/update-table-info",bodyTable, {
+                headers: {
+                    'content-type': 'application/json',
+                }
+            })}
+        }
+        )}
+    const checkbill = () =>{
+        swal({
+            title: "จ่ายเงิน",
+            buttons: true,
+            dangerMode: true,
+        }).then((conf) => {
+            if (conf) {const bodyTable = {
+                'status' : 3,
+                'table' : table
+            }
+            axios.put("http://localhost:3001/update-table-info",bodyTable, {
+                headers: {
+                    'content-type': 'application/json',
+                }
+            })}
+        }
+        )
+    }
     return (<div>
         {showmenu?<div>
             <div className="header">
@@ -337,9 +371,12 @@ const confirmAlert =() => {
                         {<GiShoppingCart className="cart-logo"/>} ×{cart.length}
                 </button>
                 <Link to ="/customer-order" state={{ table :table }}>
-                    <button type="button"  className="cart-btn">Check Order</button>
+                    <button type="button"  className="cart-btn">เช็คออเดอร์</button>
                 </Link>
-
+                
+                <button type="button"  className="cart-btn" onClick={() => callem()} >เรียกพนักงาน</button>
+                <button type="button"  className="cart-btn" onClick={() => checkbill()} >จ่ายเงิน</button>
+            
             </div>
         </div>:null}
 
