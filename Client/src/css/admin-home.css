@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300;400;500;600&display=swap');
+.admin-container {
+    font-family: 'Kanit', sans-serif;
+    background-color: antiquewhite;
+    margin: 0px auto;
+}
+.admin-left {
+    font-family: 'Kanit', sans-serif;
+    color: aliceblue;
+    background-color: #1F1D2B;
+    padding: 10px;
+    
+    height: 100vh;
+    width: 15%;
+    float: left;
+}
+.admin-left button {
+    margin-top: 30px;
+    background-color: #1F1D2B;
+    color: aliceblue;
+    border: none;
+    display: flex;
+    cursor: pointer;
+}
+.admin-left button:hover {
+    color: #EA7C69;
+}
+.admin-right {
+    font-family: 'Kanit', sans-serif;
+    text-align: center;
+    align-items: center;
+    color: #000;
+    height: 100vh;
+    width: 85%;
+    float: left;
+}
+.user-mgt {
+    font-family: 'Kanit', sans-serif;
+    margin: 0 auto;
+    width: 80%;
+    text-align: center;
+    align-items: center;
+}
+.user-mgt h2 {
+    margin-top: 5%;
+}
+.user-mgt table {
+    margin-top: 10px;
+}
+.change {
+    font-family: 'Kanit', sans-serif;
+    margin-top: 10%;
+}
+.change p {
+    font-family: 'Kanit', sans-serif;
+}
+.changetable select {
+    font-family: 'Kanit', sans-serif;
+    margin: 0 auto;
+}
+.changetable button {
+    font-family: 'Kanit', sans-serif;
+    margin-top: 10px;
+}
+.changetable {
+    font-family: 'Kanit', sans-serif;
+}

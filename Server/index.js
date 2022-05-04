@@ -57,27 +57,35 @@ app.put("/menu/:id", async (req,res) => {
     }
 })
 //login 
-app.get("/login", async (req,res) => {
+app.post("/login", async (req,res) => {
     try {
         const data = req.body;
         const login_info = await pool.query(
             "SELECT * FROM user_info WHERE (username = $1) and (password = $2)",[data.username, data.password]
         )
         if (login_info.rows.length === 1){
-        res.json("Login Success")
+            res.json(login_info.rows)
         }
         else
         {
-            res.json("Login failed")
+            res.json(false)
             }
     } catch (error) {
         console.error(error.message)
     }
 })
-
+// get-all
+app.get("/user", async(req,res) => {
+    try {
+        const user = await pool.query("SELECT * FROM user_info")
+        res.json(user.rows)
+    } catch (error) {
+        console.error(error.message)
+    }
+})
 //Register 
 
-app.post("/login", async (req,res) => {
+app.post("/loginn", async (req,res) => {
     try {
         const data = req.body;
         const exists = await pool.query(
@@ -89,7 +97,7 @@ app.post("/login", async (req,res) => {
         else
         {
             const insert = await pool.query(
-                            "INSERT INTO user_info (username , password) VALUES ($1, $2)",[data.username, data.password]
+                            "INSERT INTO user_info (username , password, role) VALUES ($1, $2, $3)",[data.username, data.password, data.role]
                         )
                         if (insert){
                         res.json("Registeration Success")
@@ -114,13 +122,26 @@ app.put("/login", async (req,res) => {
         )
         if (old_password.rows.length === 1){
          const update = await pool.query(
-           "UPDATE user_info SET password = $1 WHERE  username = $2",[body.newpasswrod,body.username]
+           "UPDATE user_info SET password = $1 WHERE  username = $2",[body.newpassword,body.username]
         )
         res.json(" Password has been Updated!")
         }
         else{
             res.json("user or password doesn't match")
         }
+    } catch (error) {
+        console.error(error.message)
+    }
+})
+app.put("/loginn", async (req,res) => {
+    try {
+        const  body  = req.body;
+        
+         const update = await pool.query(
+           "UPDATE user_info SET role = $1 WHERE  username = $2",[body.role,body.username]
+        )
+        res.json("Updated!")
+        
     } catch (error) {
         console.error(error.message)
     }
@@ -195,6 +216,34 @@ app.delete("/delete-order", async(req, res) => {
     )
 })
 
+// delete user
+app.delete("/delete-user", async(req, res) => {
+    const data = req.body
+    await pool.query(
+        `
+        DELETE FROM user_info
+        WHERE username = $1;
+        `,[data.username]
+    )
+    console.log("delete!")
+})
+
+app.put("/update-table-infoo", async(req, res) => {
+    try {
+        const data = req.body
+        const update = await pool.query(
+            `
+            UPDATE public.shop_info
+	        SET sta=$1
+	        WHERE "table" = $2; 
+            `,[data.sta,data.table]
+
+        )
+        res.json("Updated!")
+    } catch (error) {
+        console.error(error.message)
+    }
+})
 
 
 

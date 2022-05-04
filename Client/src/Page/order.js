@@ -3,7 +3,10 @@ import {useEffect, useState} from "react";
 import axios from 'axios'
 import "../css/order.css"
 import Navbar from "../component/navbar";
+
 const Order = () => {
+    
+    
     const [orders, setOrders] =useState([])
     const success = (data) => {
         console.log(data)
@@ -51,6 +54,7 @@ const Order = () => {
         getOrder()       
     }, [])
     console.log(orders)
+
     return (
         <div>
             < Navbar />

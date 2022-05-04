@@ -2,9 +2,18 @@ import React,{ useEffect, useState} from "react";
 import axios from 'axios'
 import EventCardTable from '../event/eventcardTable'
 import Navbar from "../component/navbar";
+import {useLocation} from 'react-router-dom';
 
 const HomePage = () => {
+    const location = useLocation();
     const [tables,setTable] = useState([])
+    const check = () => {
+        if (location.state) {
+            
+        } else {
+            window.location.href = '/'
+        }
+    }
     const getTable = async() => {
         try {
             
@@ -19,6 +28,7 @@ const HomePage = () => {
 
     useEffect(() => {
         getTable();
+        check();
     }, [])
     
     return (
