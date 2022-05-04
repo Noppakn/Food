@@ -81,11 +81,14 @@ const Menu = () => {
         
     }
     function increase(item) {
-        item.quantity = item.quantity + 1
-        item.total = item.quantity * item.price
-        const newval = [...cart]
-        setCart(newval)
-        totalcal()
+        item.quantity + 1 === 11 ? (
+            console.log("no")
+        ) :
+            item.quantity = item.quantity + 1
+            item.total = item.quantity * item.price
+            const newval = [...cart]
+            setCart(newval)
+            totalcal()
 
     }
     function decrease(item) {
