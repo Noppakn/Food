@@ -49,6 +49,8 @@ const AdminHome = () => {
         getUser();
         getTable();
         check();
+        getMenu();
+        getPromotion();
         
     }, [])
     const insertTable = () => {
@@ -223,7 +225,6 @@ const AdminHome = () => {
         
         
     }
-    console.log(tables)
     const showuserset = () => {
         setShowuser(true)
         setShowmenu(false)
@@ -249,6 +250,178 @@ const AdminHome = () => {
         setShowpass(true)
     }
     console.log(tablee,sta)
+    //menu
+    const [menus, setMenu] =useState([])
+    const [promotion, setPromotion] =useState([])
+    const [menuname, setMenuname] = useState([])
+    const [menuprice, setMenuprice] = useState([])
+    const [Proname, setProname] = useState([])
+    const [Proprice, setProprice] = useState([])
+    const [Prodes, setProdes]= useState([])
+    const getMenu = async() => {
+        try {
+            
+            const response = await fetch("http://localhost:3001/menu")
+            const jsonData = await response.json()
+
+            setMenu(jsonData)
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+    const getPromotion = async() => {
+        try {
+            
+            const response = await fetch("http://localhost:3001/promotion")
+            const jsonData = await response.json()
+
+            setPromotion(jsonData)
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+    const insertMenu = () => {
+        if (menuname.length === 0) {
+            toast.error("โปรดกรอกชื่อเมนู",{
+                position: toast.POSITION.TOP_RIGHT
+                })
+            
+        } else if (menuprice.length === 0){
+            toast.error("โปรดกรอกราคา",{
+                position: toast.POSITION.TOP_RIGHT
+                })
+        } else {
+            let check = true
+            menus.map(i => {
+                if (i.food === menuname) {
+                    check = false                  
+                }           
+            })
+            if (check) {
+                insertTablee()
+            } else {
+                toast.error("เมนูมีอยู่แล้ว",{
+                    position: toast.POSITION.TOP_RIGHT
+                    })
+            }            
+        }
+        
+    }
+    const insertPro = () => {
+        if (Proname.length === 0) {
+            toast.error("โปรดกรอกชื่อโปรโมชั่น",{
+                position: toast.POSITION.TOP_RIGHT
+                })
+            
+        } else if (Prodes.length === 0){
+            toast.error("โปรดกรอกรายละเอียด",{
+                position: toast.POSITION.TOP_RIGHT
+                })
+        }else if (Proprice.length ===0){
+            toast.error("โปรดกรอกราคา",{
+                position: toast.POSITION.TOP_RIGHT
+                })
+        } 
+        else {
+            let check = true
+            promotion.map(i => {
+                if (i.food === Proname) {
+                    check = false                  
+                }           
+            })
+            if (check) {
+                insertTableee()
+            } else {
+                toast.error("โปรโมชั่นมีอยู่แล้ว",{
+                    position: toast.POSITION.TOP_RIGHT
+                    })
+            }            
+        }
+        
+    }
+    const insertTablee = () => {
+        const bodyTable = {
+            'food' : menuname,
+            'price' : menuprice
+            
+        }
+        axios.post("http://localhost:3001/insert-menu",bodyTable, {
+            headers: {
+                'content-type': 'application/json',
+            }}) 
+        toast.success("เพิ่มเมนู!",{
+            position: toast.POSITION.TOP_RIGHT
+            })
+        
+        getMenu()
+    }
+    const deleteTablee = (menu) => {
+        const bodyTable = {
+            'food' : menu,
+            
+        }
+        swal({
+            title: "Confirm Delete?", 
+            buttons: true,
+            dangerMode: true,
+        }).then((conf) => {
+            if (conf) {
+                axios.delete('http://localhost:3001/delete-menu', {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: bodyTable
+            })
+            }
+            getMenu()
+        }      
+        )
+        
+        
+    }
+    const insertTableee = () => {
+        const bodyTable = {
+            'food' : Proname,
+            'description' : Prodes,
+            'price' : Proprice
+            
+            
+        }
+        axios.post("http://localhost:3001/insert-pro",bodyTable, {
+            headers: {
+                'content-type': 'application/json',
+            }}) 
+        toast.success("เพิ่มโปรโมชั่น!",{
+            position: toast.POSITION.TOP_RIGHT
+            })
+        
+        getPromotion()
+        
+    }
+    const deleteTableee = (menu) => {
+        const bodyTable = {
+            'food' : menu,
+            
+        }
+        swal({
+            title: "Confirm Delete?", 
+            buttons: true,
+            dangerMode: true,
+        }).then((conf) => {
+            if (conf) {
+                axios.delete('http://localhost:3001/delete-pro', {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: bodyTable
+            })
+            }
+            getPromotion()
+        }      
+        )
+        
+        
+    }
     return(
         <div className="admin-container">
             <div className="admin-left"> 
@@ -382,8 +555,79 @@ const AdminHome = () => {
             </div>:null}
             {showmenu? <div>
                 <div className="admin-right">
-                    <div>
-
+                    <div className="user-mgt">
+                    <h1>จัดการเมนู</h1>
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                            <label for="inputEmail4">ชื่อเมนู</label>
+                            <input type="email" class="form-control" id="inputEmail4" placeholder="ช่ือเมนู" onChange={event => setMenuname(event.target.value)}/>
+                            </div>
+                            <div class="form-group col-md-3">
+                            <label for="inputPassword4">ราคา</label>
+                            <input type="number" class="form-control" id="inputPassword4" placeholder="ราคา" onChange={event => setMenuprice(event.target.value)}/>
+                            </div> 
+                        </div>
+                    </form>
+                    <button onClick={() => insertMenu()} className="btn btn-success">เพิ่มเมนู</button>
+                    <table class="table table-borderless table-sm">
+                        <thead>
+                            <tr>
+                            <th scope="col">เมนู</th>
+                            <th scope="col">ราคา</th>                
+                            <th scope="col">ลบ</th>
+                            </tr>
+                        </thead>
+                        <tbody>  
+                            {menus.map( menu => (                     
+                                <tr> 
+                                
+                                <td className="menu-name align-middle text-center w-50"><p>{menu.food}</p></td>
+                                <td className="menu-name align-middle text-center w-50">{menu.price} B.</td>
+                                <button onClick={() => deleteTablee(menu.food)} className="btn btn-danger">ลบ</button>
+                                </tr>
+                            ))}               
+                        </tbody>
+                    </table>
+                    <h1>จัดการโปรโมชั่น</h1>
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                            <label for="inputEmail4">ชื่อโปรโมชั่น</label>
+                            <input type="email" class="form-control" id="inputEmail4" placeholder="ช่ือเมนู" onChange={event => setProname(event.target.value)}/>
+                            </div>
+                            <div class="form-group col-md-3">
+                            <label for="inputPassword4">รายละเอียด</label>
+                            <input type="text" class="form-control" id="inputPassword4" placeholder="รายละเอียด" onChange={event => setProdes(event.target.value)}/>
+                            </div> 
+                            <div class="form-group col-md-3">
+                            <label for="inputPassword4">ราคา</label>
+                            <input type="number" class="form-control" id="inputPassword4" placeholder="ราคา" onChange={event => setProprice(event.target.value)}/>
+                            </div> 
+                        </div>
+                    </form>
+                    <button onClick={() => insertPro()} className="btn btn-success">เพิ่มโปรโมชั่น</button>
+                    <table class="table table-borderless table-sm">
+                        <thead>
+                            <tr>
+                            <th scope="col">เมนู</th>
+                            <th scope="col">รายละเอียด</th>
+                            <th scope="col">ราคา</th>                 
+                            <th scope="col">ลบ</th>
+                            </tr>
+                        </thead>
+                        <tbody>  
+                            {promotion.map( menu => (                     
+                                <tr> 
+                                
+                                <td className="menu-name align-middle text-center w-40"><p>{menu.food}</p></td>
+                                <td className="menu-name align-middle text-center w-50">{menu.description}</td>
+                                <td className="menu-name align-middle text-center w-30">{menu.price} B.</td>
+                                <button onClick={() => deleteTableee(menu.food)} className="btn btn-danger">ลบ</button>
+                                </tr>
+                            ))}               
+                        </tbody>
+                    </table>
                     </div>
                 </div>
             </div>:null}

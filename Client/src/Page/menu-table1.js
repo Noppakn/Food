@@ -348,7 +348,7 @@ const confirmAlert =() => {
                     <table class="table table-borderless table-sm">
                         <thead>
                             <tr>
-                            <th scope="col"></th>
+                            
                             <th scope="col"></th>                
                             <th scope="col"></th>
                             </tr>
@@ -356,9 +356,9 @@ const confirmAlert =() => {
                         <tbody>  
                             {menus.map( menu => (                     
                                 <tr> 
-                                <td className="w-0"><img src={menu.pic} className="menu-pic"/></td>
+                                
                                 <td className="menu-name align-middle text-center w-50"><p className="name">{menu.food}</p>{menu.price} B.</td>
-                                <td className="align-middle w-30">{ menu.check_cart === false  && <button onClick={() => {addtocart(menu)}} className="btn-add" >Add</button> }
+                                <td className="text-center align-middle w-50">{ menu.check_cart === false  && <button onClick={() => {addtocart(menu)}} className="btn-add" >Add</button> }
                                     { menu.check_cart === true  && <button className="btn-added" name={menu.food} onClick={notify}>Added</button> }
                                 </td>
                                 </tr>
@@ -370,18 +370,18 @@ const confirmAlert =() => {
                     <table class="table table-borderless table-sm">
                         <thead>
                             <tr>
-                                <th scope="col"></th>
+                                
                                 <th scope="col"></th>              
                                 
                                 <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>  
-                            {promotion.map( (menu,index) => (                     
+                            {promotion.map( (menu) => (                     
                                 <tr> 
-                                    <td className="w-0"><img src={ pic[index] } className="menu-pic"/></td> 
+                                   
                                     <td className="menu-name align-middle text-center w-50"><p className="name">{menu.food}</p><p>{menu.description}</p><p>{menu.price} B.</p></td>
-                                    <td className="align-middle w-30">{ menu.check_cart === false  && <button onClick={() => addtocartPro(menu)} className="btn-add" >Add</button> }
+                                    <td className="text-center align-middle w-30">{ menu.check_cart === false  && <button onClick={() => addtocartPro(menu)} className="btn-add" >Add</button> }
                                         { menu.check_cart === true  && <button className="btn-added" name={menu.food} onClick={notify}>Added</button> }
                                     </td>
                                 </tr>
@@ -417,7 +417,7 @@ const confirmAlert =() => {
                 <table class="tableOrder table-borderless table-sm">
                     <thead>
                         <tr>
-                        <th scope="col"></th>
+                        
                         <th scope="col"></th>
                         <th scope="col"></th>
                         <th scope="col"></th>
@@ -427,7 +427,7 @@ const confirmAlert =() => {
                     <tbody>
                         {cart.map( i => (
                             <tr>
-                            <td className='align-middle' ><img src={i.pic} className="menu-pic"/></td>
+                           
                             <td className='align-middle' >{i.food}</td>                     
                             <td className='align-middle' ><button className="btn-inde btn-light" onClick={() => decrease(i)}>-</button>     {i.quantity}     <button className="btn-inde btn-light" onClick={() => increase(i)}>+</button></td>
                             <td className='align-middle' >{i.total}</td>

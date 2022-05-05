@@ -47,6 +47,9 @@
 .user-mgt table {
     margin-top: 10px;
 }
+.user-mgt form {
+    margin: 0 auto;
+}
 .change {
     font-family: 'Kanit', sans-serif;
     margin-top: 10%;
@@ -74,4 +77,8 @@
 }
 .changetable {
     font-family: 'Kanit', sans-serif;
+}
+.form-row{
+    text-align: center;
+    justify-content: center;
 }

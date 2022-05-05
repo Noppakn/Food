@@ -244,7 +244,66 @@ app.put("/update-table-infoo", async(req, res) => {
         console.error(error.message)
     }
 })
-
-
+// 
+app.post("/insert-menu", async(req, res) => {
+    try {
+        const data = req.body
+        const insert = await pool.query(
+            `
+            INSERT INTO menu ("food","price") 
+            VALUES ($1,$2)
+            `,[data.food,data.price]
+        )
+        res.json("Updated!")
+    } catch (error) {
+        console.error(error.message)
+        
+    }
+})
+app.delete("/delete-menu", async(req, res) => {
+    
+    try {
+        const data = req.body
+    await pool.query(
+        `
+        DELETE FROM menu
+        WHERE food = $1;
+        `,[data.food]
+    )
+    console.log("delete!")
+    } catch (error) {
+        console.error(error.message)
+    }
+})
+app.post("/insert-pro", async(req, res) => {
+    try {
+        const data = req.body
+        const insert = await pool.query(
+            `
+            INSERT INTO promotion ("food","price","description") 
+            VALUES ($1,$2,$3)
+            `,[data.food,data.price,data.description]
+        )
+        res.json("Updated!")
+    } catch (error) {
+        console.error(error.message)
+        
+    }
+})
+app.delete("/delete-pro", async(req, res) => {
+    
+    try {
+        const data = req.body
+    await pool.query(
+        `
+        DELETE FROM promotion
+        WHERE food = $1;
+        `,[data.food]
+    )
+    console.log("delete!")
+    } catch (error) {
+        console.error(error.message)
+    }
+})
 
 
