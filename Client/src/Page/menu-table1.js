@@ -92,15 +92,37 @@ const Menu = () => {
 
     }
     function decrease(item) {
-        item.quantity - 1 <= 0 ? (
-            console.log("no")
-        ) : 
+        const name = item.food
+        if (item.quantity - 1 === 0){
+            
+        setCart(cart.filter(item => item.food !== name));
+        menus.map((i) => {
+        if (i.food === name) {
+            i.check_cart = false
+            i.total = i.price
+        }
+        promotion.map((i) => {
+            if (i.food === name) {
+                i.check_cart = false
+                i.total = i.price
+            } 
+        })
+    })
+    promotion.map((i) => {
+        if (i.food === name) {
+            i.check_cart = false
+            i.total = i.price
+        } 
+    })}
+        else {
             item.quantity = item.quantity - 1
             item.total = item.quantity * item.price
             const newval = [...cart]
             setCart(newval)
             totalcal()
+        }
             
+                   
             
         }
     function round(value, step) {
