@@ -1,13 +1,14 @@
 import React,{ useEffect, useState } from "react";
 import { useLocation } from 'react-router-dom'
 import axios from 'axios'
-
+import { useNavigate } from "react-router-dom"
 
 const TableInfo = () => {
     const [total,setTotal] = useState({total :0})
     const location = useLocation()
     const data = location.state
     const [orders,setOrder] = useState([])
+    const history = useNavigate()
     const getOrder = async() => {
         try {
             
@@ -21,7 +22,6 @@ const TableInfo = () => {
     useEffect(() => {
         getOrder()
     }, [])
-    console.log(orders)
     const g = []
     const totalcal = (data) => {
         g.push(data)
@@ -72,10 +72,15 @@ const TableInfo = () => {
                 'content-type': 'application/json',
             }
         })
+        axios.delete('http://localhost:3001/delete-order', {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: bodyTable
+            })
         
-        window.location.href = '/home'
+        history("/home", {state:{data: location.state.user}})
     }
-    console.log(data.table)
     return(
         <div className="login-container">
             <div className="login-header">

@@ -44,10 +44,10 @@ export default class Card extends React.Component {
                 </ul>
                 
               </div>
-              <Link to ="/kitchen-accept-order" state={{ order_id: this.props.order_id , table:this.props.table, order: this.props.order}}>
-                <button className="btn btn-success">Accept</button>
+              <Link to ="/kitchen-accept-order" state={{ order_id: this.props.order_id , table:this.props.table, order: this.props.order,user:this.props.user}}>
+                <button className="btn btn-success">รับ</button>
               </Link>
-              <button className="btn btn-danger" onClick={() => {Cancelorder(this.props.order_id,this.props.order)}}>Cancel</button>
+              <button className="btn btn-danger" onClick={() => {Cancelorder(this.props.order_id,this.props.order)}}>ยกเลิก</button>
             </div>
           );
     }

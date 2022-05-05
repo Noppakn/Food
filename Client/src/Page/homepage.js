@@ -32,8 +32,9 @@ const HomePage = () => {
     }, [])
     
     return (
+
         <div>
-        < Navbar />
+        < Navbar data={location.state.data}/>
         <div className="login-container">
             <div className="login-header">
                 <h1> การแจ้งเตือน </h1>
@@ -41,7 +42,7 @@ const HomePage = () => {
             <div className="orderr-content">
                 
                 <h1>โต๊ะลูกค้า</h1>
-                < EventCardTable data={tables} />
+                < EventCardTable data={[tables,location.state.data]} />
                 
             </div>
         </div>

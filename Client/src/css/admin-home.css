@@ -54,6 +54,16 @@
 .change p {
     font-family: 'Kanit', sans-serif;
 }
+.change1 {
+    width: 1000px;
+    color: aliceblue;
+    font-family: 'Kanit', sans-serif;
+    margin: 0 auto;
+    text-align: center;
+}
+.change1 p {
+    font-family: 'Kanit', sans-serif;
+}
 .changetable select {
     font-family: 'Kanit', sans-serif;
     margin: 0 auto;

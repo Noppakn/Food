@@ -3,10 +3,10 @@ import {useEffect, useState} from "react";
 import axios from 'axios'
 import "../css/order.css"
 import Navbar from "../component/navbar";
-
+import {useLocation} from 'react-router-dom';
 const Order = () => {
     
-    
+    const location = useLocation();
     const [orders, setOrders] =useState([])
     const success = (data) => {
         console.log(data)
@@ -57,7 +57,7 @@ const Order = () => {
 
     return (
         <div>
-            < Navbar />
+            < Navbar data={location.state.data}/>
         <div className="login-container">
             <div className="login-header">
                 <h1> การแจ้งเตือน </h1>

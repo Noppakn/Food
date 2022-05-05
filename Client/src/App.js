@@ -10,7 +10,7 @@ import CustomerOrder from "./Page/customer-order";
 import HomePage from "./Page/homepage";
 import TableInfo from "./Page/table-info";
 import AdminHome from "./Page/admin-home";
-
+import Changepassword from "./Page/changepassword";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 
@@ -29,6 +29,7 @@ function App() {
       <Route exact path="/home" element= {<HomePage />}/>
       <Route export path="/Table-info" element = {<TableInfo/>} />
       <Route export path="/admin-home" element = {<AdminHome/>} />
+      <Route export path="/pass" element = {<Changepassword/>} />
     </Routes>
   </Router>
   )

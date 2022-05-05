@@ -1,17 +1,20 @@
 import React,{ useEffect, useState } from "react";
 import EventsCard from "../event/eventcard";
 import Navbar from "../component/navbar";
-
+import {useLocation} from 'react-router-dom';
 
 import "../css/kitchen-order-alert.css"
 
 
-const KitchenOrderAlert =() => {
+
+
+export default function KitchenOrderAlert(props) {
+    const location = useLocation();
     const [orders, setOrders] =useState([])
     const refreshWin = async() => {
         window.location.reload(false);
     }
-    
+    console.log(props)
     const getOrder = async() => {
         try {
             
@@ -32,12 +35,10 @@ const KitchenOrderAlert =() => {
     }, [])
     return (
         <div>
-            < Navbar />
+            < Navbar data={location.state.data}/>
         <div className="kitchen-order-alert-container">
-            <EventsCard data={orders} />
+            <EventsCard data={[orders,location.state.data]} />
         </div>
         </div>
     )
-}
-
-export default KitchenOrderAlert ;
+} ;

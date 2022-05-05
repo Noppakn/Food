@@ -3,7 +3,9 @@ import { useEffect, useState} from "react";
 import { useLocation } from 'react-router-dom'
 import axios from 'axios'
 import "../css/kitchen-accept-order.css"
+import { useNavigate } from "react-router-dom"
 const KitchenAcceptOrder = () => {
+    const history = useNavigate()
     const location = useLocation()
     const data = location.state
     const [orders,SetOrder] = useState([])
@@ -15,6 +17,7 @@ const KitchenAcceptOrder = () => {
             SetOrder([...orders])
         })
     }
+    console.log(data.user)
     function cancelOrder(item) {
         item.status = "cancel"
         const newval = [...orders]
@@ -53,7 +56,7 @@ const KitchenAcceptOrder = () => {
                     'content-type': 'application/json',
                 }
             })
-        window.location.href = '/kitchen-order-alert'  
+        history("/kitchen-order-alert", {state:{data: data.user}})
     }
     useEffect(() => {
         getOrder();

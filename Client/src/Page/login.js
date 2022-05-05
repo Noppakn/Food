@@ -29,7 +29,7 @@ const Login = () => {
                         if (res.data[0].role === 'admin') {
                             history("/admin-home", {state:{data: res.data[0]}}); 
                         }else {
-                            history("/home", {state:{data: username}}); 
+                            history("/home", {state:{data: res.data[0]}}); 
                         }
                     
                 } else {

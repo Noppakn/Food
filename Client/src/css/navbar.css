@@ -5,6 +5,7 @@
     justify-content: right;
     align-items: center;
     padding-right: 30px;
+    vertical-align: middle;
 }
 .nav-con button {
     background-color: #EA7C69;
@@ -14,4 +15,9 @@
     border: none;
     cursor: pointer;
     margin-left: 20px;
+    
+}
+.nav-con p {
+    margin: auto 0;
+    color: aliceblue;
 }
