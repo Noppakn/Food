@@ -3,12 +3,12 @@ import React,{ useEffect, useState} from "react";
 import '../css/admin-home.css'
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-import Select from 'react-select';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios'
 import swal from 'sweetalert'
 import EventsCard from "../event/eventcardd";
 import {useLocation} from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const AdminHome = () => {
     const location = useLocation();
@@ -29,6 +29,7 @@ const AdminHome = () => {
     const [showuser,setShowuser] = useState(true)
     const [showtable,setShowtable] = useState(false)
     const [showpass,setShowpass] = useState(false)
+    const [showre,setShowre] = useState(false)
     const options = [
         { value: 'admin', label: 'admin' },
         { value: 'employee', label: 'emplyee' }    
@@ -230,26 +231,37 @@ const AdminHome = () => {
         setShowmenu(false)
         setShowtable(false)
         setShowpass(false)
+        setShowre(false)
     }
     const showmenuset = () => {
         setShowuser(false)
         setShowmenu(true)
         setShowtable(false)
         setShowpass(false)
+        setShowre(false)
     }
     const showtableset = () => {
         setShowuser(false)
         setShowmenu(false)
         setShowtable(true)
         setShowpass(false)
+        setShowre(false)
     }
     const showpassset = () => {
         setShowuser(false)
         setShowmenu(false)
         setShowtable(false)
         setShowpass(true)
+        setShowre(false)
     }
-    console.log(tablee,sta)
+    const showreset = () => {
+        setShowuser(false)
+        setShowmenu(false)
+        setShowtable(false)
+        setShowpass(false)
+        setShowre(true)
+    }
+    
     //menu
     const [menus, setMenu] =useState([])
     const [promotion, setPromotion] =useState([])
@@ -258,6 +270,8 @@ const AdminHome = () => {
     const [Proname, setProname] = useState([])
     const [Proprice, setProprice] = useState([])
     const [Prodes, setProdes]= useState([])
+    const [month, setMonth] =useState([])
+    const [year, setYear] =useState([])
     const getMenu = async() => {
         try {
             
@@ -422,6 +436,24 @@ const AdminHome = () => {
         
         
     }
+    const reportgo = () => {
+        console.log(month,year)
+        if (month.length ===0) {
+            toast.error("โปรดเลือกเดือน",{
+                position: toast.POSITION.TOP_RIGHT
+                })
+        } else if (year.length === 0 ) {
+            toast.error("โปรดเลือกปี",{
+                position: toast.POSITION.TOP_RIGHT
+                })
+        } else if (month === "มีนาคม" & year === "2565") {
+            window.open("/reasokasdpok56521324", "_blank")
+        } else {
+            toast.error("ไม่พบข้อมูล",{
+                position: toast.POSITION.TOP_RIGHT
+                })
+        }
+    }
     return(
         <div className="admin-container">
             <div className="admin-left"> 
@@ -429,6 +461,7 @@ const AdminHome = () => {
                 <button onClick={() =>showuserset()}>จัดการบัญชีผู้ใช้</button>
                 <button onClick={() =>showmenuset()}>จัดการเมนูอาหาร</button>
                 <button onClick={() =>showtableset()}>จัดการโต๊ะ</button>
+                <button onClick={() =>showreset()}>รายงาน</button>
                 <button onClick={() =>showpassset()}>เปลี่ยนรหัสผ่าน</button>
                 <button onClick={() => window.location.href = '/'}>ออกจากระบบ</button>
             </div>
@@ -631,6 +664,42 @@ const AdminHome = () => {
                     </div>
                 </div>
             </div>:null}
+            {showre? <div className="admin-right">
+                <div className="report">
+                    <h1>รายงาน - เดือน</h1>
+                    <p>เดือน</p>
+                    <select id="lang" class="form-control col-md-3" onChange={event => setMonth(event.target.value)} >
+                                <option value="" disabled selected>เลือกเดือน</option>               
+                                <option >มกราคม</option>
+                                <option >กุมภาพันธ์</option>
+                                <option >มีนาคม</option>
+                                <option >เมษายน</option>
+                                <option >พฤษภาคม</option>
+                                <option >มิถุนายน</option>
+                                <option >กรกฎาคม</option>
+                                <option >สิงหาคม</option>
+                                <option >กันยายน</option>
+                                <option >ตุลาคม</option>
+                                <option >พฤศจิกายน</option>
+                                <option >ธันวาคม</option>
+                    </select>
+                    <p>ปี</p>
+                    <select id="lang" class="form-control col-md-3" onChange={event => setYear(event.target.value)} >
+                                <option value="" disabled selected>เลือกปี</option>               
+                                <option >2561</option>
+                                <option >2562</option>
+                                <option >2563</option>
+                                <option >2564</option>
+                                <option >2565</option>
+                                <option >2566</option>
+                                
+                    </select>
+                    
+                    </div>
+                    <button className="btn btn-primary" onClick={() => reportgo()}>ดูรายงาน</button>
+                    
+                    
+                </div>:null}
             <ToastContainer />  
         </div>
     )
